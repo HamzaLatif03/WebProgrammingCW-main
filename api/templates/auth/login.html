@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="auth-container">
+    <h2 class="auth-title">Login</h2>
+    
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-royal-blue">Login</button>
+    </form>
+    <div class="auth-footer">
+        <p>Don't have an account? <a href="/api/signup">Sign up</a></p>
+    </div>
+</div>
+{% endblock %}

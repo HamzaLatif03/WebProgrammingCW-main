@@ -1,5 +1,6 @@
 import os
 
+import dj_database_url
 from django.conf import settings
 
 
@@ -11,6 +12,10 @@ engines = {
 
 
 def config():
+    database_url = os.getenv('DATABASE_URL')
+    if database_url:
+        return dj_database_url.config(default=database_url, conn_max_age=600)
+
     service_name = os.getenv('DATABASE_SERVICE_NAME', '').upper().replace('-', '_')
     if service_name:
         engine = engines.get(os.getenv('DATABASE_ENGINE'), engines['sqlite'])

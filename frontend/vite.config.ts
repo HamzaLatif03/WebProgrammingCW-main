@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
             ? "http://localhost:5173/"
             : "/static/api/spa/",
     build: {
-        outDir: '../your_django_app/frontend/dist',
+        outDir: '../api/static/api/spa',
         assetsDir: 'assets'
     },
     plugins: [vue()],

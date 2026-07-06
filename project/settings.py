@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-DEFAULT_ALLOWED_HOSTS = "localhost,127.0.0.1,0.0.0.0,group33-web-apps-ec221014.apps.a.comp-teach.qmul.ac.uk"
+DEFAULT_ALLOWED_HOSTS = "localhost,127.0.0.1,0.0.0.0,group33-web-apps-ec221014.apps.a.comp-teach.qmul.ac.uk,.ngrok-free.app,.ngrok-free.dev,.ngrok.io,.onrender.com"
 ALLOWED_HOSTS = [host.strip() for host in os.getenv('DJANGO_ALLOWED_HOSTS', DEFAULT_ALLOWED_HOSTS).split(',') if host.strip()]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -41,6 +41,12 @@ DEFAULT_CORS_ORIGINS = "http://localhost:5173,http://localhost:8000,https://grou
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in os.getenv('CORS_ALLOWED_ORIGINS', DEFAULT_CORS_ORIGINS).split(',') if origin.strip()]
 DEFAULT_CSRF_TRUSTED_ORIGINS = "http://localhost:5173,http://localhost:8000,https://group33-web-apps-ec221014.apps.a.comp-teach.qmul.ac.uk"
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv('CSRF_TRUSTED_ORIGINS', DEFAULT_CSRF_TRUSTED_ORIGINS).split(',') if origin.strip()]
+
+_render_url = os.getenv('RENDER_EXTERNAL_URL')
+if _render_url and _render_url not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(_render_url)
+if _render_url and _render_url not in CORS_ALLOWED_ORIGINS:
+    CORS_ALLOWED_ORIGINS.append(_render_url)
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -139,8 +145,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'api' /'static',
-    os.path.join(BASE_DIR, "frontend/dist"),
+    BASE_DIR / 'api' / 'static',
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
